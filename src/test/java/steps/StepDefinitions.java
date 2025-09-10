@@ -1,41 +1,53 @@
 package steps;
 
-
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
-import io.cucumber.java.en.Then;
-import static org.junit.jupiter.api.Assertions.*;
+import io.cucumber.java.en.*;
+import static org.testng.Assert.assertEquals;
 
 
 public class StepDefinitions {
 
-    private int numero1 = -1;
-    private int numero2 = -1;
-    private int resultado;
+    private String input1;
+    private String input2;
+    private String result;
+    private String errorMessage;
 
-    // Usamos un contador para saber si es el primer o segundo número
-    @Given("que tengo el número {int}")
-    public void que_tengo_el_numero(int num) {
-        if (numero1 == -1) {
-            numero1 = num;
-        } else {
-            numero2 = num;
+
+    // For adding decimal numbers
+    @Given("I enter {double} and {double}")
+    public void i_enter_and(Double num1, Double num2) {
+        input1 = num1.toString();
+        input2 = num2.toString();
+    }
+
+    @When("I press the add button")
+    public void i_press_the_add_button() {
+        try {
+            double num1 = Double.parseDouble(input1);
+            double num2 = Double.parseDouble(input2);
+            result = String.valueOf(num1 + num2);
+            errorMessage = null;
+        } catch (NumberFormatException e) {
+            result = null;
+            errorMessage = "Invalid input";
         }
     }
 
-    @When("los sumo")
-    public void los_sumo() {
-        resultado = numero1 + numero2;
+
+
+    // For invalid input (number + letter)
+    @Given("I enter {int} and {string}")
+    public void i_enter_and(int number, String text) {
+        input1 = String.valueOf(number);
+        input2 = text;
     }
 
-    @When("los multiplico")
-    public void los_multiplico() {
-        resultado = numero1 * numero2;
+    @Then("the message {string} should be displayed")
+    public void the_message_should_be_displayed(String expectedMessage) {
+        assertEquals(expectedMessage, errorMessage);
     }
 
-    @Then("el resultado debería ser {int}")
-    public void el_resultado_deberia_ser(int esperado) {
-        System.out.println("El resultado es: " + resultado);
-        assertEquals(esperado, resultado);
+    @Then("the result should be {string}")
+    public void the_result_should_be(String expected) {
+        assertEquals(expected, result);
     }
 }

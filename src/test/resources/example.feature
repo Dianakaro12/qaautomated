@@ -1,13 +1,13 @@
-Feature: Suma simple
+Feature: Add two numbers
 
-  Scenario: Sumar dos números
-    Given que tengo el número 2
-    And que tengo el número 3
-    When los sumo
-    Then el resultado debería ser 5
+  @XrayTestKey=QA-1 @QA_PROJECT @Cucumber @QA-2
+  Scenario: Add two decimal numbers
+    Given I enter 2.5 and 3.1
+    When I press the add button
+    Then the result should be "5.6"
 
-  Scenario: Multiplicar dos números
-    Given que tengo el número 4
-    And que tengo el número 5
-    When los multiplico
-    Then el resultado debería ser 20
+  @XrayTestKey=QA-1 @QA_PROJECT @Cucumber @QA-3
+  Scenario: Enter a number and a letter
+    Given I enter 2 and "a"
+    When I press the add button
+    Then the message "Invalid input" should be displayed
