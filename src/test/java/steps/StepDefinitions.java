@@ -3,7 +3,6 @@ package steps;
 import io.cucumber.java.en.*;
 import static org.testng.Assert.assertEquals;
 
-
 public class StepDefinitions {
 
     private String input1;
@@ -11,8 +10,6 @@ public class StepDefinitions {
     private String result;
     private String errorMessage;
 
-
-    // For adding decimal numbers
     @Given("I enter {double} and {double}")
     public void i_enter_and(Double num1, Double num2) {
         input1 = num1.toString();
@@ -32,9 +29,6 @@ public class StepDefinitions {
         }
     }
 
-
-
-    // For invalid input (number + letter)
     @Given("I enter {int} and {string}")
     public void i_enter_and(int number, String text) {
         input1 = String.valueOf(number);
@@ -47,7 +41,9 @@ public class StepDefinitions {
     }
 
     @Then("the result should be {string}")
-    public void the_result_should_be(String expected) {
-        assertEquals(expected, result);
+    public void the_result_should_be(String expectedResult) {
+        if (result == null || !result.equals(expectedResult)) {
+            throw new AssertionError("Expected result: " + expectedResult + " but was: " + result);
+        }
     }
 }
