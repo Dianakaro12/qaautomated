@@ -8,6 +8,6 @@ Feature: Add two numbers
 
   @XrayTestKey=QA-1 @QA_PROJECT @Cucumber @QA-3
   Scenario: Enter a number and a letter
-    Given I enter 2 and "a"
+    Given I enter b and "a"
     When I press the add button
     Then the message "Invalid input" should be displayed
