@@ -1,7 +1,7 @@
 package steps;
 
 import io.cucumber.java.en.*;
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 public class StepDefinitions {
 
@@ -21,7 +21,13 @@ public class StepDefinitions {
         try {
             double num1 = Double.parseDouble(input1);
             double num2 = Double.parseDouble(input2);
-            result = String.valueOf(num1 + num2);
+            double sum = num1 + num2;
+
+            // 🔧 Si la suma es entera, quitar el .0
+            result = (sum % 1 == 0)
+                    ? String.valueOf((int) sum)
+                    : String.valueOf(sum);
+
             errorMessage = null;
         } catch (NumberFormatException e) {
             result = null;
