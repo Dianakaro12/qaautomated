@@ -54,7 +54,16 @@ pipeline {
                          https://xray.cloud.getxray.app/api/v2/import/execution/cucumber
                     '''
                 }
+
             }
         }
     }
-}
+
+     post {
+            always {
+                cucumber buildStatus: 'UNSTABLE', fileIncludePattern: '**/target/cucumber-report.json'
+            }
+        }
+    }
+
+
