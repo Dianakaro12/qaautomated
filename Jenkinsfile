@@ -10,7 +10,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'mvn clean test -Dcucumber.plugin=pretty,json:target/cucumber-report.json'
+                bat 'mvn clean test -Dcucumber.options="--plugin pretty --plugin json:target/cucumber-report.json"'
             }
         }
 
