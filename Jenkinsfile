@@ -10,7 +10,7 @@ pipeline {
 
         stage('Run Tests') {
             steps {
-                bat 'mvn clean test -Dcucumber.options="--plugin pretty --plugin json:target/cucumber-report.json"'
+               bat 'mvn clean test -Dcucumber.plugin="pretty,json:target/cucumber-report.json,html:target/cucumber-html-report.html"'
             }
         }
 
@@ -57,13 +57,32 @@ pipeline {
 
             }
         }
-    }
+       stage('Archive Reports') {
+                  steps {
+                      // Archivar JSON + HTML
+                      archiveArtifacts artifacts: 'target/cucumber-report.json, target/cucumber-html-report.html', fingerprint: true
+                  }
+              }
 
-     post {
-            always {
-                cucumber buildStatus: 'UNSTABLE', fileIncludePattern: '**/target/cucumber-report.json'
-            }
-        }
-    }
+              stage('Publish HTML Report') {
+                  steps {
+                      publishHTML([
+                          reportName: 'Cucumber HTML Report',
+                          reportDir: 'target',
+                          reportFiles: 'cucumber-html-report.html',
+                          keepAll: true,
+                          alwaysLinkToLastBuild: true,
+                          allowMissing: false
+                      ])
+                  }
+              }
+          }
+
+          post {
+              always {
+                  cucumber buildStatus: 'UNSTABLE', fileIncludePattern: '**/target/cucumber-report.json'
+              }
+          }
+      }
 
 
